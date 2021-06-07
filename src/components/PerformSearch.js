@@ -12,6 +12,11 @@ export const PerformSearch = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const generalStyle = { background: '#00ffb398', margin: "0.5rem", textAlign: 'center' };
+  const style = { ...generalStyle, background: "#ff004067", padding: "8px" };
+
+  const audio = new Audio('https://freesound.org/data/previews/72/72125_1028972-lq.mp3');
+
   const fetchSessions = () => {
     if (loading) return;
     setLoading(true);
@@ -19,11 +24,11 @@ export const PerformSearch = ({
 
     api
       .get(
-        `/v2/appointment/sessions/calendarByDistrict?district_id=${district_id}&date=${date}`
+        `/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
       )
       .then((response) => {
         console.log("sessions fetched", response.data);
-        setSessions(response.data.centers);
+        setSessions(response.data.sessions);
       })
       .catch((error) => {
         console.log("error in fetching sessions");
@@ -50,13 +55,12 @@ export const PerformSearch = ({
 
   useEffect(() => {
     sessions.forEach((session) => {
-      if (
-        session.sessions.length > 0 &&
-        session.sessions.available_capacity > threshold
-      ) {
+      if (session.length > 0 && session.available_capacity > threshold) {
         console.log(session.center_id);
+        audio.play();
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sessions, threshold]);
 
   return (
@@ -65,13 +69,16 @@ export const PerformSearch = ({
       {loading && <Spin />}
       {sessions.length > 0 || error ? (
         <Row gutter={[32, 32]} className="states">
-          {sessions.forEach((session) => {
-            if (
-              session.sessions.length > 0 &&
-              session.sessions.available_capacity > threshold
-            ) {
+          {sessions.map((session) => {
+            if (session.length > 0 && session.available_capacity > threshold) {
               return (
                 <Col key={session.center_id} span={8}>
+                  {session.name}
+                </Col>
+              );
+            } else {
+              return (
+                <Col style={style} key={session.center_id} span={8}>
                   {session.name}
                 </Col>
               );
