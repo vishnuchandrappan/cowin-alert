@@ -56,11 +56,14 @@ export const Home = () => {
     hidePreferences,
   };
 
+  const audio = new Audio('https://freesound.org/data/previews/72/72125_1028972-lq.mp3');
+
   const searchProps = {
     district_id: selectedDistrict,
     date: today,
     refreshTime,
     threshold,
+    audio
   };
 
   const logProps = {

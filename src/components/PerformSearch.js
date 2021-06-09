@@ -7,6 +7,7 @@ export const PerformSearch = ({
   date,
   refreshTime,
   threshold,
+  audio
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -15,7 +16,6 @@ export const PerformSearch = ({
   const generalStyle = { background: '#00ffb398', margin: "0.5rem", textAlign: 'center' };
   const style = { ...generalStyle, background: "#ff004067", padding: "8px" };
 
-  const audio = new Audio('https://freesound.org/data/previews/72/72125_1028972-lq.mp3');
 
   const fetchSessions = () => {
     if (loading) return;
