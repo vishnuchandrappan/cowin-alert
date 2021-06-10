@@ -27,7 +27,7 @@ export const Home = () => {
   const [showPreferences, setShowPreferences] = useState(false);
   const [showLog, setShowLog] = useState(false);
 
-  const today = moment().format("DD-MM-YYYY");
+  const date = moment().add(1,'days').format("DD-MM-YYYY");
 
   const handleStateChange = (value) => {
     setSelectedState(value);
@@ -60,7 +60,7 @@ export const Home = () => {
 
   const searchProps = {
     district_id: selectedDistrict,
-    date: today,
+    date,
     refreshTime,
     threshold,
     audio
