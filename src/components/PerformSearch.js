@@ -60,11 +60,11 @@ export const PerformSearch = ({
   useEffect(() => {
     sessions.forEach((session) => {
       console.log("avail", session.available_capacity);
-      if (session.available_capacity > threshold) {
+      if (session.available_capacity >= threshold) {
         console.log(session.center_id);
         audio.play();
       }
-      if (session.available_capacity_dose1 > threshold) {
+      if (session.available_capacity_dose1 >= threshold) {
         console.log(session.center_id);
         audio2.play();
       }
@@ -80,7 +80,7 @@ export const PerformSearch = ({
         <Row gutter={[32, 32]} className="states">
           <Col span={12}>Found {sessions.length} results</Col>
           {sessions.map((session) => {
-            if (session.available_capacity > threshold) {
+            if (session.available_capacity >= threshold) {
               return (
                 <Col style={style} key={session.center_id} span={8}>
                   {session.name}
