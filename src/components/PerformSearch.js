@@ -7,7 +7,8 @@ export const PerformSearch = ({
   date,
   refreshTime,
   threshold,
-  audio
+  audio,
+  audio2
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -55,9 +56,14 @@ export const PerformSearch = ({
 
   useEffect(() => {
     sessions.forEach((session) => {
+      console.log("avail", session.available_capacity)
       if (session.length > 0 && session.available_capacity > threshold) {
         console.log(session.center_id);
         audio.play();
+      }
+      if (session.length > 0 && session.available_capacity_dose1 > threshold) {
+        console.log(session.center_id);
+        audio2.play();
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

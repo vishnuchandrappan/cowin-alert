@@ -18,7 +18,7 @@ export const Home = () => {
   const [log, setLog] = useState([]);
 
   /** Preferences */
-  const [threshold, setThreshold] = useState(3);
+  const [threshold, setThreshold] = useState(1);
   const [refreshTime, setRefreshTime] = useState(5);
   const [cost, setCost] = useState(FREE);
   const [minAgeLimit, setMinAgeLimit] = useState(false);
@@ -57,13 +57,15 @@ export const Home = () => {
   };
 
   const audio = new Audio('https://freesound.org/data/previews/72/72125_1028972-lq.mp3');
+  const audio2 = new Audio('https://freesound.org/data/previews/426/426888_7913959-lq.mp3');
 
   const searchProps = {
     district_id: selectedDistrict,
     date,
     refreshTime,
     threshold,
-    audio
+    audio,
+    audio2
   };
 
   const logProps = {
