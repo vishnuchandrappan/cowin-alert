@@ -83,7 +83,7 @@ export const PerformSearch = ({
             if (session.available_capacity >= threshold) {
               return (
                 <Col style={style} key={session.center_id} span={8}>
-                  {session.name}
+                  {session.name} - (Age &gt;  {session.min_age_limit})
                 </Col>
               );
             } else return null
