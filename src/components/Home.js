@@ -27,7 +27,9 @@ export const Home = () => {
   const [showPreferences, setShowPreferences] = useState(false);
   const [showLog, setShowLog] = useState(false);
 
-  const date = moment().add(1,'days').format("DD-MM-YYYY");
+  const today = moment().format("DD-MM-YYYY");
+  const tommorow = moment().add(1,'days').format("DD-MM-YYYY");
+  const dayAfter = moment().add(2,'days').format("DD-MM-YYYY");
 
   const handleStateChange = (value) => {
     setSelectedState(value);
@@ -61,12 +63,22 @@ export const Home = () => {
 
   const searchProps = {
     district_id: selectedDistrict,
-    date,
+    date: today,
     refreshTime,
     threshold,
     audio,
     audio2
   };
+
+  const search2Props = {
+    ...searchProps,
+    date: tommorow
+  }
+
+  const search3Props = {
+    ...searchProps,
+    date: dayAfter
+  }
 
   const logProps = {
     log,
@@ -103,6 +115,8 @@ export const Home = () => {
 
         <Col span={12}>
           <PerformSearch {...searchProps} />
+          <PerformSearch {...search2Props} />
+          <PerformSearch {...search3Props} />
         </Col>
       </Row>
 

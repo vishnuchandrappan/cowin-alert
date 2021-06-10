@@ -8,15 +8,18 @@ export const PerformSearch = ({
   refreshTime,
   threshold,
   audio,
-  audio2
+  audio2,
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const generalStyle = { background: '#00ffb398', margin: "0.5rem", textAlign: 'center' };
+  const generalStyle = {
+    background: "#00ffb398",
+    margin: "0.5rem",
+    textAlign: "center",
+  };
   const style = { ...generalStyle, background: "#ff004067", padding: "8px" };
-
 
   const fetchSessions = () => {
     if (loading) return;
@@ -56,12 +59,12 @@ export const PerformSearch = ({
 
   useEffect(() => {
     sessions.forEach((session) => {
-      console.log("avail", session.available_capacity)
-      if (session.length > 0 && session.available_capacity > threshold) {
+      console.log("avail", session.available_capacity);
+      if (session.available_capacity > threshold) {
         console.log(session.center_id);
         audio.play();
       }
-      if (session.length > 0 && session.available_capacity_dose1 > threshold) {
+      if (session.available_capacity_dose1 > threshold) {
         console.log(session.center_id);
         audio2.play();
       }
@@ -71,24 +74,19 @@ export const PerformSearch = ({
 
   return (
     <div>
-      <h1>Search results</h1>
+      <h1>Search results - {date}</h1>
       {loading && <Spin />}
       {sessions.length > 0 || error ? (
         <Row gutter={[32, 32]} className="states">
+          <Col span={12}>Found {sessions.length} results</Col>
           {sessions.map((session) => {
-            if (session.length > 0 && session.available_capacity > threshold) {
-              return (
-                <Col key={session.center_id} span={8}>
-                  {session.name}
-                </Col>
-              );
-            } else {
+            if (session.available_capacity > threshold) {
               return (
                 <Col style={style} key={session.center_id} span={8}>
                   {session.name}
                 </Col>
               );
-            }
+            } else return null
           })}
         </Row>
       ) : (
