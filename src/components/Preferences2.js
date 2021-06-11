@@ -1,46 +1,31 @@
+import React from "react";
 import { Row, Col, InputNumber, Tooltip, Select } from "antd";
-import { useContext } from "react";
-import { FREE, PAID } from "../helpers/constants";
-import { PreferencesContext } from "./services/PreferencesService";
+import Modal from "antd/lib/modal/Modal";
+import { FREE, PAID } from "./AHome";
+
 const { Option } = Select;
 
-export const Preferences = () => {
-  const {
-    refreshTime,
-    setRefreshTime,
-    cost,
-    setCost,
-    minAgeLimit,
-    setMinAgeLimit,
-    dose,
-    setDose
-  } = useContext(PreferencesContext);
-
+export const Preferences = ({
+  cost,
+  setCost,
+  minAgeLimit,
+  setMinAgeLimit,
+  threshold,
+  setThreshold,
+  refreshTime,
+  setRefreshTime,
+  setLog,
+  showPreferences,
+  hidePreferences,
+}) => {
   return (
-    <div className="preferences">
-      <h1>Select preferences</h1>
-      <Row>
-        <Col span={8}>
-          <Tooltip
-            title={`Select Dose`}
-          >
-            <span>Select Dose</span>
-          </Tooltip>
-        </Col>
-        <Col span={16}>
-          <InputNumber
-            min={1}
-            max={2}
-            style={{
-              width: "100%",
-              margin: '0 0.2rem'
-            }}
-            placeholder="Select Dose"
-            value={dose}
-            onChange={setDose}
-          />
-        </Col>
-      </Row>
+    <Modal
+      title="Preferences"
+      okText={"Save preferences"}
+      visible={showPreferences}
+      onOk={hidePreferences}
+      onCancel={hidePreferences}
+    >
       <Row>
         <Col span={8}>
           <Tooltip
@@ -54,11 +39,31 @@ export const Preferences = () => {
             min={4}
             style={{
               width: "100%",
-              margin: '0 0.2rem'
             }}
             placeholder="Refresh time"
             value={refreshTime}
             onChange={setRefreshTime}
+          />
+        </Col>
+      </Row>
+
+      <Row>
+        <Col span={8}>
+          <Tooltip
+            title={`If available number of sessions is greater than ${threshold}, you'll get an alert`}
+          >
+            <span>Threshold value</span>
+          </Tooltip>
+        </Col>
+        <Col span={16}>
+          <InputNumber
+            min={1}
+            style={{
+              width: "100%",
+            }}
+            placeholder="Threshold value"
+            value={threshold}
+            onChange={setThreshold}
           />
         </Col>
       </Row>
@@ -73,7 +78,6 @@ export const Preferences = () => {
           <Select
             style={{
               width: "100%",
-              margin: '0 0.2rem'
             }}
             value={cost}
             placeholder="Cost of vaccine"
@@ -97,18 +101,16 @@ export const Preferences = () => {
           <Select
             style={{
               width: "100%",
-              margin: '0 0.2rem'
             }}
             value={minAgeLimit}
             placeholder="Do you want to filter search results? (Age 45+) "
             onChange={setMinAgeLimit}
           >
-            <Option value={45}>Above 45</Option>
-            <Option value={40}>40 - 44</Option>
-            <Option value={false}>18 to 39</Option>
+            <Option value={true}>Yes</Option>
+            <Option value={false}>No</Option>
           </Select>
         </Col>
       </Row>
-    </div>
+    </Modal>
   );
 };

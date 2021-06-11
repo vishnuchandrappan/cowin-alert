@@ -14,12 +14,11 @@ export const PerformSearch = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const generalStyle = {
+  const style = {
     background: "#00ffb398",
     margin: "0.5rem",
     textAlign: "center",
   };
-  const style = { ...generalStyle, background: "#ff004067", padding: "8px" };
 
   const fetchSessions = () => {
     if (loading) return;
@@ -40,22 +39,20 @@ export const PerformSearch = ({
       })
       .then(() => {
         setLoading(false);
-        awaitAndFetch();
       });
   };
 
-  const awaitAndFetch = () => {
-    setTimeout(() => {
+  useEffect(() => {
+    const interval = setInterval(() => {
       if (district_id && date) {
         fetchSessions();
       }
     }, [refreshTime * 1000]);
-  };
-
-  useEffect(() => {
-    fetchSessions();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [district_id]);
+    return () => {
+      clearTimeout(interval)
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, refreshTime, district_id]);
 
   useEffect(() => {
     sessions.forEach((session) => {
@@ -78,12 +75,13 @@ export const PerformSearch = ({
       {loading && <Spin />}
       {sessions.length > 0 || error ? (
         <Row gutter={[32, 32]} className="states">
-          <Col span={12}>Found {sessions.length} results</Col>
+          <Col span={18}>{sessions.length} centres found</Col>
           {sessions.map((session) => {
             if (session.available_capacity >= threshold) {
               return (
                 <Col style={style} key={session.center_id} span={8}>
-                  {session.name} - (Age &gt;  {session.min_age_limit})
+                  {session.name}
+                  <small style={{display: 'inline-block'}}>( {session.available_capacity} )</small>
                 </Col>
               );
             } else return null
