@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../helpers/api";
-import { Row, Spin, Col } from "antd";
+import { Row, Spin, Col, Divider } from "antd";
 
 export const PerformSearch = ({
   district_id,
@@ -8,11 +8,14 @@ export const PerformSearch = ({
   refreshTime,
   threshold,
   audio,
-  audio2,
+  dose = 1,
+  minAgeLimit = 45,
+  cost = "free",
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [availableSessions, setAvailableSessions] = useState([]);
 
   const style = {
     background: "#00ffb398",
@@ -49,47 +52,53 @@ export const PerformSearch = ({
       }
     }, [refreshTime * 1000]);
     return () => {
-      clearTimeout(interval)
+      clearTimeout(interval);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date, refreshTime, district_id]);
 
   useEffect(() => {
-    sessions.forEach((session) => {
-      console.log("avail", session.available_capacity);
-      if (session.available_capacity >= threshold) {
-        console.log(session.center_id);
-        audio.play();
-      }
-      if (session.available_capacity_dose1 >= threshold) {
-        console.log(session.center_id);
-        audio2.play();
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sessions, threshold]);
+    setAvailableSessions(
+      sessions.filter((session) => {
+        return (
+          session.fee_type.toLowerCase() === cost &&
+          session[`available_capacity_dose${dose}` >= threshold] &&
+          session.min_age_limit >= minAgeLimit
+        );
+      })
+    );
+  }, [sessions, threshold, cost, dose, minAgeLimit]);
+
+  useEffect(() => {
+    if (availableSessions.length > 0) {
+      audio.play();
+    }
+  }, [availableSessions, audio]);
 
   return (
     <div>
-      <h1>Search results - {date}</h1>
+      <h2>{date}</h2>
       {loading && <Spin />}
-      {sessions.length > 0 || error ? (
+      <Col span={18}>{sessions.length} centres found</Col>
+      {availableSessions.length > 0 ? (
         <Row gutter={[32, 32]} className="states">
-          <Col span={18}>{sessions.length} centres found</Col>
-          {sessions.map((session) => {
-            if (session.available_capacity >= threshold) {
-              return (
-                <Col style={style} key={session.center_id} span={8}>
-                  {session.name}
-                  <small style={{display: 'inline-block'}}>( {session.available_capacity} )</small>
-                </Col>
-              );
-            } else return null
-          })}
+          {availableSessions.map((session) => (
+            <Col style={style} key={session.center_id} span={8}>
+              {session.name}
+              <small style={{ display: "inline-block" }}>
+                ( {session.available_capacity} )
+              </small>
+            </Col>
+          )
+          )}
         </Row>
       ) : (
-        <div>no results found</div>
+        <div>no centres available</div>
       )}
+
+      {error && <small style={{ color: "crimson" }}>{error}</small>}
+
+      <Divider />
     </div>
   );
 };

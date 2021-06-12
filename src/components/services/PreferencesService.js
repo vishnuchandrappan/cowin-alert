@@ -6,7 +6,7 @@ export const PreferencesContext = createContext(null);
 export const PreferencesService = ({ children }) => {
   const [refreshTime, setRefreshTime] = useState(5);
   const [cost, setCost] = useState(FREE);
-  const [minAgeLimit, setMinAgeLimit] = useState(false);
+  const [minAgeLimit, setMinAgeLimit] = useState(45);
   const [dose, setDose] = useState(1);
 
   return (
