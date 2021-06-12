@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Divider, Tag } from "antd";
+import { Divider, Tag, Tooltip } from "antd";
 import { Fragment, useContext, useState } from "react";
 import { DateContext } from "../services/DateService";
 
@@ -32,7 +32,9 @@ export const DateSelector = () => {
           </Tag>
         );
       })}
-      <Tag color="geekblue" onClick={addNumber}>+</Tag>
+      <Tooltip title="Add next date">
+        <Tag color="geekblue" onClick={addNumber}>+</Tag>
+      </Tooltip>
       <Divider />
     </Fragment>
   );

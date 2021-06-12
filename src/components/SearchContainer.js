@@ -1,4 +1,4 @@
-import { Col, Divider, Row, Collapse } from "antd";
+import { Col, Divider, Row, Collapse, Alert } from "antd";
 import { useContext } from "react";
 import { PerformSearch } from "./PerformSearch";
 import { AppContext } from "../services/AppService";
@@ -23,7 +23,20 @@ export const SearchContainer = () => {
   };
 
   if (!selectedDistrict || dates.length === 0) {
-    return null;
+    return (
+      <>
+        {!selectedDistrict && (<Alert
+          message="Select state & district first"
+          type="info"
+          showIcon
+        />)}
+        {dates.length === 0 && (<Alert
+          message="Click on dates to select one. Select as many dates as you like"
+          type="info"
+          showIcon
+        />)}
+      </>
+    );
   }
 
   return (
@@ -36,7 +49,7 @@ export const SearchContainer = () => {
         <Collapse activeKey={dates}>
           {dates.map(date => (
             <Panel header={date} key={date}>
-              <PerformSearch key={date} {...searchProps} date={date} />
+              <PerformSearch {...searchProps} date={date} />
             </Panel>
           ))}
         </Collapse>

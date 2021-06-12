@@ -28,17 +28,18 @@ export const Preferences = () => {
           </Tooltip>
         </Col>
         <Col span={16}>
-          <InputNumber
-            min={1}
-            max={2}
+          <Select
             style={{
               width: "100%",
               margin: '0 0.2rem'
             }}
-            placeholder="Select Dose"
             value={dose}
+            placeholder="Select Dose"
             onChange={setDose}
-          />
+          >
+            <Option value={1}>1</Option>
+            <Option value={2}>2</Option>
+          </Select>
         </Col>
       </Row>
       <Row>
@@ -90,7 +91,7 @@ export const Preferences = () => {
           <Tooltip
             title={`If set to 'Yes', the search results will be filtered with age limit of 45`}
           >
-            <span>Limit age ? (45+)</span>
+            <span>Limit age ?</span>
           </Tooltip>
         </Col>
         <Col span={16}>
@@ -100,7 +101,7 @@ export const Preferences = () => {
               margin: '0 0.2rem'
             }}
             value={minAgeLimit}
-            placeholder="Do you want to filter search results? (Age 45+) "
+            placeholder="Filter search results based on minimum age"
             onChange={setMinAgeLimit}
           >
             <Option value={45}>Above 45</Option>

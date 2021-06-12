@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { api } from "../helpers/api";
-import { Row, Spin, Col, Divider } from "antd";
+import { Row, Spin, Col, Divider, Alert } from "antd";
 import { SettingsContext } from "../services/SettingsService";
 
 export const PerformSearch = ({
@@ -81,8 +81,7 @@ export const PerformSearch = ({
 
   return (
     <Row>
-      {loading && <Spin />}
-      <Col span={24}>{sessions.length} centres found</Col>
+      <Col style={{ height: '1.3rem' }} span={24}>{sessions.length} centres found {loading && <Spin style={{ display: 'inline' }} size="small" />}</Col>
       <Col span={24} style={{ overflowX: 'hidden' }}>
 
         {availableSessions.length > 0 ? (
@@ -98,7 +97,11 @@ export const PerformSearch = ({
             )}
           </Row>
         ) : (
-          <div>no centres available</div>
+          <Alert
+            message="No centres have vaccine slots available"
+            type="error"
+            showIcon
+          />
         )}
       </Col>
 
