@@ -40,8 +40,16 @@ export const SearchContainer = () => {
   }
 
   return (
-    <Row className="results">
-      <Col span={24}>
+    <Row className="results" style={{ position: "relative" }}>
+      <Col
+        span={24}
+        style={{
+          position: "sticky",
+          top: "0",
+          zIndex: "999",
+          background: "white",
+        }}
+      >
         <h1>Search Results</h1>
       </Col>
       <Divider />

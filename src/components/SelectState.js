@@ -6,7 +6,7 @@ import { StorageContext } from "../services/StorageService";
 
 const { Option } = Select;
 
-export const SelectState = ({ handleChange }) => {
+export const SelectState = ({ handleChange, selectedState }) => {
   const { getItem, setItem } = useContext(StorageContext);
 
   const [states, setStates] = useState(getItem(STATES) || []);
@@ -55,6 +55,7 @@ export const SelectState = ({ handleChange }) => {
             placeholder="States"
             optionFilterProp="children"
             onChange={handleChange}
+            value={selectedState}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }

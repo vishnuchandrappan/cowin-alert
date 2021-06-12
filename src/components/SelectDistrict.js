@@ -7,7 +7,11 @@ import { DISTRICTS } from "../helpers/constants";
 
 const { Option } = Select;
 
-export const SelectDistrict = ({ stateId, setSelectedDistrict }) => {
+export const SelectDistrict = ({
+  stateId,
+  setSelectedDistrict,
+  selectedDistrict,
+}) => {
   const { setItem, getItem } = useContext(StorageContext);
 
   const [districts, setDistricts] = useState(getItem(DISTRICTS) || []);
@@ -26,13 +30,17 @@ export const SelectDistrict = ({ stateId, setSelectedDistrict }) => {
       .then((response) => {
         setDistricts(response.data.districts);
       })
+      // eslint-disable-next-line no-unused-vars
+      .catch((_error) => {
+        setDistricts([]);
+      })
       .then(() => {
         setLoading(false);
       });
   };
 
   useEffect(() => {
-    if (districts.length === 0) {
+    if (districts.length === 0 || !selectedDistrict) {
       fetchDistricts();
     }
   }, [stateId]);
@@ -55,6 +63,7 @@ export const SelectDistrict = ({ stateId, setSelectedDistrict }) => {
               width: "100%",
               margin: "0 0.2rem",
             }}
+            value={selectedDistrict}
             placeholder="Districts"
             optionFilterProp="children"
             onChange={handleChange}

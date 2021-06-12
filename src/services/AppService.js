@@ -18,6 +18,7 @@ export const AppService = ({ children }) => {
 
   useEffect(() => {
     setItem(SELECTED_STATE, selectedState);
+    setSelectedDistrict(null);
   }, [selectedState, setItem]);
 
   useEffect(() => {

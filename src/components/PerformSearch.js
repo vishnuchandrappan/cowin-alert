@@ -35,7 +35,7 @@ export const PerformSearch = ({
 
     api
       .get(
-        `/v2/appointment/sessions/public/findByDistrict?districtId=${districtId}&date=${date}`
+        `/v2/appointment/sessions/public/findByDistrict?district_id=${districtId}&date=${date}`
       )
       .then((response) => {
         setSessions(response.data.sessions);
@@ -103,15 +103,40 @@ export const PerformSearch = ({
                 lg={6}
                 offset={1}
               >
-                {session.name}
-                <small style={{ display: "inline-block" }}>
-                  ( {session.available_capacity} )
-                </small>
-                {disablePreferences && (
-                  <small style={{ display: "inline-block" }}>
-                    ( {session.vaccine} )
-                  </small>
-                )}
+                <a
+                  rel="noreferrer"
+                  href="https://selfregistration.cowin.gov.in/"
+                  target="_blank"
+                >
+                  {session.name}
+                  <div>
+                    <small style={{ display: "inline-block" }}>
+                      Available {session.available_capacity}
+                    </small>
+                    {disablePreferences && (
+                      <>
+                        <small style={{ display: "inline-block" }}>
+                          |&nbsp; {session.vaccine} |&nbsp;
+                        </small>
+                        {session.available_capacity_dose1 > 0 ? (
+                          <small style={{ display: "inline-block" }}>
+                            Dose 1 |&nbsp;
+                          </small>
+                        ) : (
+                          <small style={{ display: "inline-block" }}>
+                            Dose 2 |&nbsp;
+                          </small>
+                        )}
+                        <small style={{ display: "inline-block" }}>
+                          {session.fee_type} |&nbsp;
+                        </small>
+                        <small style={{ display: "inline-block" }}>
+                          Age limit: {session.min_age_limit}
+                        </small>
+                      </>
+                    )}
+                  </div>
+                </a>
               </Col>
             ))}
           </Row>

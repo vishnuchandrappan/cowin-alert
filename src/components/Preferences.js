@@ -24,7 +24,9 @@ export const Preferences = () => {
 
   return (
     <Row className={`preferences ${disablePreferences ? "disabled" : null}`}>
-      <Col span={24}>Select preferences</Col>
+      <Col span={24}>
+        <h1>Select preferences</h1>
+      </Col>
       <Col span={8}>
         <Tooltip title={`Only dose - ${dose} results will be displayed`}>
           <span>Select Dose</span>

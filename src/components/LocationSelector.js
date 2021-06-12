@@ -5,8 +5,12 @@ import { SelectState } from "./SelectState";
 import { SelectDistrict } from "./SelectDistrict";
 
 export const LocationSelector = () => {
-  const { setSelectedDistrict, selectedState, setSelectedState } =
-    useContext(AppContext);
+  const {
+    setSelectedDistrict,
+    selectedState,
+    setSelectedState,
+    selectedDistrict,
+  } = useContext(AppContext);
 
   const handleStateChange = (value) => {
     setSelectedState(value);
@@ -14,8 +18,9 @@ export const LocationSelector = () => {
   };
 
   const selectDistrictProps = {
-    state_id: selectedState,
+    stateId: selectedState,
     setSelectedDistrict,
+    selectedDistrict,
   };
 
   return (
@@ -25,7 +30,10 @@ export const LocationSelector = () => {
           <h1>Select location</h1>
         </Col>
         <Col lg={12}>
-          <SelectState handleChange={handleStateChange} />
+          <SelectState
+            handleChange={handleStateChange}
+            selectedState={selectedState}
+          />
         </Col>
         <Col lg={12}>
           {selectedState ? (
