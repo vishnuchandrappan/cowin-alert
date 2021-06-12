@@ -1,5 +1,5 @@
-import { Col, Divider } from "antd";
-import { Fragment, useContext } from "react";
+import { Col, Divider, Row } from "antd";
+import { useContext } from "react";
 import { PerformSearch } from "./PerformSearch";
 import { AppContext } from "../services/AppService";
 import { DateContext } from "../services/DateService";
@@ -26,8 +26,8 @@ export const SearchContainer = () => {
   }
 
   return (
-    <Fragment>
-      <Col span={12}>
+    <Row className="results">
+      <Col span={24}>
         <h1>Search Results</h1>
       </Col>
       <Divider />
@@ -36,6 +36,6 @@ export const SearchContainer = () => {
           <PerformSearch key={date} {...searchProps} date={date} />
         ))}
       </Col>
-    </Fragment>
+    </Row>
   )
 }

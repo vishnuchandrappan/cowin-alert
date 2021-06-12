@@ -18,9 +18,11 @@ export const PerformSearch = ({
   const [availableSessions, setAvailableSessions] = useState([]);
 
   const style = {
-    background: "#00ffb398",
-    margin: "0.5rem",
+    background: "#adc6ff",
     textAlign: "center",
+    padding: '1rem',
+    width: '100%',
+    borderRadius: '2px'
   };
 
   const fetchSessions = () => {
@@ -75,29 +77,32 @@ export const PerformSearch = ({
   }, [availableSessions, audio]);
 
   return (
-    <div>
+    <Row>
       <h2>{date}</h2>
       {loading && <Spin />}
-      <Col span={18}>{sessions.length} centres found</Col>
-      {availableSessions.length > 0 ? (
-        <Row gutter={[32, 32]} className="states">
-          {availableSessions.map((session) => (
-            <Col style={style} key={session.center_id} span={8}>
-              {session.name}
-              <small style={{ display: "inline-block" }}>
-                ( {session.available_capacity} )
-              </small>
-            </Col>
-          )
-          )}
-        </Row>
-      ) : (
-        <div>no centres available</div>
-      )}
+      <Col span={24}>{sessions.length} centres found</Col>
+      <Col span={24} style={{ overflowX: 'hidden' }}>
+
+        {availableSessions.length > 0 ? (
+          <Row gutter={[32, 32]} className="states">
+            {availableSessions.map((session) => (
+              <Col style={style} key={session.center_id} md={10} lg={6} offset={1} >
+                {session.name}
+                <small style={{ display: "inline-block" }}>
+                  ( {session.available_capacity} )
+                </small>
+              </Col>
+            )
+            )}
+          </Row>
+        ) : (
+          <div>no centres available</div>
+        )}
+      </Col>
 
       {error && <small style={{ color: "crimson" }}>{error}</small>}
 
       <Divider />
-    </div>
+    </Row>
   );
 };

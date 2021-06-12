@@ -14,14 +14,14 @@ export const Home = () => {
       <PreferencesService>
         <AppService>
           <Row>
-            <Col style={{margin: '2rem'}} span={11}>
+            <Col style={{ padding: '2rem' }} md={12}>
               <DateSelector />
               <Divider />
               <Preferences />
               <Divider />
               <LocationSelector />
             </Col>
-            <Col style={{margin: '2rem'}} span={11} offset={2}>
+            <Col style={{ padding: '2rem' }} md={12}>
               <SearchContainer />
             </Col>
           </Row>
