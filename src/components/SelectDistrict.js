@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { api } from "../helpers/api";
 import { Alert, Col, Row, Select } from "antd";
 import { Spin } from "antd";
+import { StorageContext } from "../services/StorageService";
+import { DISTRICTS } from "../helpers/constants";
 
 const { Option } = Select;
 
 export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
-  const [districts, setDistricts] = useState([]);
+  const { setItem, getItem } = useContext(StorageContext);
+
+  const [districts, setDistricts] = useState(getItem(DISTRICTS) || []);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setItem(DISTRICTS, districts)
+  }, [districts, setItem])
 
   const fetchDistricts = () => {
     if (loading) return;
@@ -28,13 +36,13 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
   };
 
   useEffect(() => {
-    fetchDistricts();
+    if (districts.length === 0) {
+      fetchDistricts();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state_id]);
 
-  const handleChange = (value) => {
-    setSelectedDistrict(value);
-  };
+  const handleChange = setSelectedDistrict;
 
   return (
     <Row style={{ width: '100%' }}>

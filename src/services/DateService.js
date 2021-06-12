@@ -1,9 +1,12 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { DATES } from '../helpers/constants';
+import { StorageContext } from './StorageService';
 
 export const DateContext = createContext(null);
 
 export const DateService = ({ children }) => {
-  const [dates, setDates] = useState([]);
+  const { getItem, setItem } = useContext(StorageContext);
+  const [dates, setDates] = useState(getItem(DATES) || []);
 
   const addToDates = (newDate) => {
     setDates([...dates, newDate].sort());
@@ -20,6 +23,12 @@ export const DateService = ({ children }) => {
       addToDates(newDate);
     }
   }
+
+  useEffect(() => {
+    setItem(DATES, dates);
+  }, [dates, setItem]);
+
+
   return (
     <DateContext.Provider value={{ dates, toggleDates }}>
       {children}

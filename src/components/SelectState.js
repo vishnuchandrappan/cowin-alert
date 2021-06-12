@@ -1,12 +1,20 @@
 import { Alert, Col, Row, Select, Spin } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { api } from "../helpers/api";
+import { STATES } from "../helpers/constants";
+import { StorageContext } from "../services/StorageService";
 
 const { Option } = Select;
 
 export const SelectState = ({ handleChange }) => {
-  const [states, setStates] = useState([]);
+  const { getItem, setItem } = useContext(StorageContext);
+
+  const [states, setStates] = useState(getItem(STATES) || []);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    setItem(STATES, states);
+  }, [states, setItem]);
 
   const fetchStates = () => {
     if (loading) return;
@@ -27,14 +35,18 @@ export const SelectState = ({ handleChange }) => {
   };
 
   useEffect(() => {
-    fetchStates();
+    if (states.length === 0) {
+      fetchStates();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Row style={{ width: '100%' }}>
+    <Row style={{ width: "100%" }}>
       <Col span={24}>
-        <h3>Select state {loading && <Spin style={{ display: 'inline' }} />} </h3>
+        <h3>
+          Select state {loading && <Spin style={{ display: "inline" }} />}{" "}
+        </h3>
       </Col>
 
       {states.length > 0 ? (
@@ -43,7 +55,7 @@ export const SelectState = ({ handleChange }) => {
             showSearch
             style={{
               width: "100%",
-              margin: '0 0.2rem'
+              margin: "0 0.2rem",
             }}
             placeholder="States"
             optionFilterProp="children"
@@ -60,11 +72,7 @@ export const SelectState = ({ handleChange }) => {
           </Select>
         </Col>
       ) : (
-        <Alert
-          message="no results found"
-          type="error"
-          showIcon
-        />
+        <Alert message="no results found" type="error" showIcon />
       )}
     </Row>
   );
