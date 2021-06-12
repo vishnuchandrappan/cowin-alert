@@ -2,10 +2,13 @@ import moment from "moment";
 import { Divider, Tag, Tooltip } from "antd";
 import { useContext, useState } from "react";
 import { DateContext } from "../services/DateService";
+import { generateArray } from "../helpers/utils";
 
 export const DateSelector = () => {
   const { dates, toggleDates } = useContext(DateContext);
-  const [numbers, setNumbers] = useState([0, 1, 2, 3, 4]);
+  const [numbers, setNumbers] = useState(
+    generateArray(dates.length > 0 ? dates.length : 4)
+  );
 
   const addNumber = () => {
     setNumbers((number) => [...number, number.length]);

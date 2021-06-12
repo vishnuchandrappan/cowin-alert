@@ -1,7 +1,7 @@
 import { Alert, Col, Row, Select, Spin } from "antd";
 import { useContext, useEffect, useState } from "react";
-import { api } from "../helpers/api";
 import { STATES } from "../helpers/constants";
+import { statesRequest } from "../helpers/requests";
 import { StorageContext } from "../services/StorageService";
 
 const { Option } = Select;
@@ -16,18 +16,16 @@ export const SelectState = ({ handleChange, selectedState }) => {
     setItem(STATES, states);
   }, [states, setItem]);
 
-  const fetchStates = () => {
+  const fetchStates = async () => {
     if (loading) return;
     setLoading(true);
 
-    api
-      .get("/v2/admin/location/states")
-      .then((response) => {
-        setStates(response.data.states);
-      })
-      .then(() => {
-        setLoading(false);
-      });
+    try {
+      const response = await statesRequest();
+      setStates(response.data.states);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
