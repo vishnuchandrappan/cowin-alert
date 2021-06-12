@@ -1,4 +1,4 @@
-import { Row, Col, InputNumber, Tooltip, Select } from "antd";
+import { Row, Col, InputNumber, Tooltip, Select, Divider } from "antd";
 import { useContext } from "react";
 import { FREE, PAID } from "../helpers/constants";
 import { PreferencesContext } from "../services/PreferencesService";
@@ -109,6 +109,7 @@ export const Preferences = () => {
           </Select>
         </Col>
       </Row>
+      <Divider />
     </div>
   );
 };

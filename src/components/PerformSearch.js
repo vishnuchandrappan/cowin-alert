@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { api } from "../helpers/api";
 import { Row, Spin, Col, Divider } from "antd";
+import { SettingsContext } from "../services/SettingsService";
 
 export const PerformSearch = ({
   district_id,
@@ -16,6 +17,8 @@ export const PerformSearch = ({
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [availableSessions, setAvailableSessions] = useState([]);
+
+  const { muted } = useContext(SettingsContext);
 
   const style = {
     background: "#adc6ff",
@@ -71,14 +74,13 @@ export const PerformSearch = ({
   }, [sessions, threshold, cost, dose, minAgeLimit]);
 
   useEffect(() => {
-    if (availableSessions.length > 0) {
+    if (availableSessions.length > 0 && !muted) {
       audio.play();
     }
-  }, [availableSessions, audio]);
+  }, [availableSessions, audio, muted]);
 
   return (
     <Row>
-      <h2>{date}</h2>
       {loading && <Spin />}
       <Col span={24}>{sessions.length} centres found</Col>
       <Col span={24} style={{ overflowX: 'hidden' }}>

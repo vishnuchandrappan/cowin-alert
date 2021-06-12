@@ -1,10 +1,11 @@
-import { Col, Divider, Row } from "antd";
+import { Col, Divider, Row, Collapse } from "antd";
 import { useContext } from "react";
 import { PerformSearch } from "./PerformSearch";
 import { AppContext } from "../services/AppService";
 import { DateContext } from "../services/DateService";
 import { PreferencesContext } from "../services/PreferencesService";
 
+const { Panel } = Collapse;
 
 export const SearchContainer = () => {
   const { selectedDistrict, alert } = useContext(AppContext);
@@ -32,9 +33,13 @@ export const SearchContainer = () => {
       </Col>
       <Divider />
       <Col span={24}>
-        {dates.map(date => (
-          <PerformSearch key={date} {...searchProps} date={date} />
-        ))}
+        <Collapse activeKey={dates}>
+          {dates.map(date => (
+            <Panel header={date} key={date}>
+              <PerformSearch key={date} {...searchProps} date={date} />
+            </Panel>
+          ))}
+        </Collapse>
       </Col>
     </Row>
   )
