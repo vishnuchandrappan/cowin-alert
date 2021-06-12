@@ -1,12 +1,24 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import moment from "moment";
 import { DATES } from "../helpers/constants";
 import { StorageContext } from "./StorageService";
 
 export const DateContext = createContext(null);
 
 export const DateService = ({ children }) => {
+  const today = moment().format("DD-MM-YYYY");
+
   const { getItem, setItem } = useContext(StorageContext);
-  const [dates, setDates] = useState(getItem(DATES) || []);
+
+  const getDate = () => {
+    const data = getItem(DATES) || [];
+    if (data[0] < today) {
+      data.shift();
+    }
+    return data;
+  };
+
+  const [dates, setDates] = useState(getDate());
 
   const addToDates = (newDate) => {
     setDates([...dates, newDate].sort());

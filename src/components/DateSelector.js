@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import { Divider, Tag, Tooltip } from "antd";
 import { useContext, useState } from "react";
