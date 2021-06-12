@@ -1,34 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { Alert, Col, Row, Select, Spin } from "antd";
+
 import { api } from "../helpers/api";
-import { Alert, Col, Row, Select } from "antd";
-import { Spin } from "antd";
 import { StorageContext } from "../services/StorageService";
 import { DISTRICTS } from "../helpers/constants";
 
 const { Option } = Select;
 
-export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
+export const SelectDistrict = ({ stateId, setSelectedDistrict }) => {
   const { setItem, getItem } = useContext(StorageContext);
 
   const [districts, setDistricts] = useState(getItem(DISTRICTS) || []);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    setItem(DISTRICTS, districts)
-  }, [districts, setItem])
+    setItem(DISTRICTS, districts);
+  }, [districts, setItem]);
 
   const fetchDistricts = () => {
     if (loading) return;
     setLoading(true);
 
     api
-      .get(`/v2/admin/location/districts/${state_id}`)
+      .get(`/v2/admin/location/districts/${stateId}`)
       .then((response) => {
-        console.log("districts fetched", response.data);
         setDistricts(response.data.districts);
-      })
-      .catch((error) => {
-        console.log("error in fetching districts");
       })
       .then(() => {
         setLoading(false);
@@ -39,15 +35,16 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
     if (districts.length === 0) {
       fetchDistricts();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state_id]);
+  }, [stateId]);
 
   const handleChange = setSelectedDistrict;
 
   return (
-    <Row style={{ width: '100%' }}>
+    <Row style={{ width: "100%" }}>
       <Col span={24}>
-        <h3>Select district {loading && <Spin style={{ display: 'inline' }} />}</h3>
+        <h3>
+          Select district {loading && <Spin style={{ display: "inline" }} />}
+        </h3>
       </Col>
 
       {districts.length > 0 ? (
@@ -56,7 +53,7 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
             showSearch
             style={{
               width: "100%",
-              margin: '0 0.2rem'
+              margin: "0 0.2rem",
             }}
             placeholder="Districts"
             optionFilterProp="children"
@@ -73,11 +70,7 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
           </Select>
         </Col>
       ) : (
-        <Alert
-          message="no results found"
-          type="error"
-          showIcon
-        />
+        <Alert message="no results found" type="error" showIcon />
       )}
     </Row>
   );

@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { api } from "../helpers/api";
+import { useEffect, useState } from "react";
 import { Row, Spin, Col, Divider, Alert } from "antd";
+import { api } from "../helpers/api";
 
 export const PerformSearch = ({
-  district_id,
+  districtId,
   date,
   refreshTime,
   threshold,
@@ -35,14 +35,13 @@ export const PerformSearch = ({
 
     api
       .get(
-        `/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
+        `/v2/appointment/sessions/public/findByDistrict?districtId=${districtId}&date=${date}`
       )
       .then((response) => {
         setSessions(response.data.sessions);
       })
-      .catch((error) => {
-        console.log("error in fetching sessions");
-        setError(error.response);
+      .catch((e) => {
+        setError(e.response);
       })
       .then(() => {
         setLoading(false);
@@ -51,26 +50,25 @@ export const PerformSearch = ({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (district_id && date) {
+      if (districtId && date) {
         fetchSessions();
       }
     }, [refreshTime * 1000]);
     return () => {
       clearTimeout(interval);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [date, refreshTime, district_id]);
+  }, [date, refreshTime, districtId]);
 
   useEffect(() => {
     setAvailableSessions(
-      sessions.filter((session) => {
-        return disablePreferences
+      sessions.filter((session) =>
+        disablePreferences
           ? session.available_capacity >= threshold
           : session.fee_type === cost &&
-          session[`available_capacity_dose${dose}`] >= threshold &&
-          session.min_age_limit === minAgeLimit &&
-          session.vaccine === vaccine;
-      })
+            session[`available_capacity_dose${dose}`] >= threshold &&
+            session.min_age_limit === minAgeLimit &&
+            session.vaccine === vaccine
+      )
     );
   }, [
     sessions,

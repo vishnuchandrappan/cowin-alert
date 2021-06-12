@@ -1,5 +1,5 @@
 import { Alert, Col, Row, Select, Spin } from "antd";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../helpers/api";
 import { STATES } from "../helpers/constants";
 import { StorageContext } from "../services/StorageService";
@@ -23,11 +23,7 @@ export const SelectState = ({ handleChange }) => {
     api
       .get("/v2/admin/location/states")
       .then((response) => {
-        console.log("states fetched", response.data);
         setStates(response.data.states);
-      })
-      .catch((error) => {
-        console.log("error in fetching states");
       })
       .then(() => {
         setLoading(false);
@@ -38,7 +34,6 @@ export const SelectState = ({ handleChange }) => {
     if (states.length === 0) {
       fetchStates();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

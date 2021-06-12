@@ -1,6 +1,6 @@
-import { Fragment, useContext } from "react";
-import { AppContext } from "../services/AppService";
+import { useContext } from "react";
 import { Row, Col, Divider, Skeleton } from "antd";
+import { AppContext } from "../services/AppService";
 import { SelectState } from "./SelectState";
 import { SelectDistrict } from "./SelectDistrict";
 
@@ -19,7 +19,7 @@ export const LocationSelector = () => {
   };
 
   return (
-    <Fragment>
+    <>
       <Row>
         <Col span={24}>
           <h1>Select location</h1>
@@ -31,15 +31,11 @@ export const LocationSelector = () => {
           {selectedState ? (
             <SelectDistrict {...selectDistrictProps} />
           ) : (
-            <div style={{ paddingLeft: '1rem' }}>
+            <div style={{ paddingLeft: "1rem" }}>
+              <Skeleton.Input style={{ width: 200 }} active size="small" />
               <Skeleton.Input
-                style={{ width: 200 }}
-                active={true}
-                size="small"
-              />
-              <Skeleton.Input
-                style={{ marginTop: '10px', width: 300 }}
-                active={true}
+                style={{ marginTop: "10px", width: 300 }}
+                active
                 size="default"
               />
             </div>
@@ -47,6 +43,6 @@ export const LocationSelector = () => {
         </Col>
       </Row>
       <Divider />
-    </Fragment>
+    </>
   );
 };

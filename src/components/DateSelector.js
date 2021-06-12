@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-unresolved
 import moment from "moment";
 import { Divider, Tag, Tooltip } from "antd";
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { DateContext } from "../services/DateService";
 
 export const DateSelector = () => {
@@ -8,11 +9,11 @@ export const DateSelector = () => {
   const [numbers, setNumbers] = useState([0, 1, 2, 3, 4]);
 
   const addNumber = () => {
-    setNumbers(number => [...number, number.length])
-  }
+    setNumbers((number) => [...number, number.length]);
+  };
 
   return (
-    <Fragment>
+    <>
       <h1>Select dates</h1>
       {numbers.map((item) => {
         const data = moment().add(item, "days");
@@ -25,7 +26,7 @@ export const DateSelector = () => {
               toggleDates(requiredFormat);
             }}
             style={{
-              margin: '0.2rem'
+              margin: "0.2rem",
             }}
           >
             {requiredFormat} &nbsp; ( {data.format("dddd")} )
@@ -33,9 +34,11 @@ export const DateSelector = () => {
         );
       })}
       <Tooltip title="Add next date">
-        <Tag color="geekblue" onClick={addNumber}>+</Tag>
+        <Tag color="geekblue" onClick={addNumber}>
+          +
+        </Tag>
       </Tooltip>
       <Divider />
-    </Fragment>
+    </>
   );
 };

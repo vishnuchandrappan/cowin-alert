@@ -12,14 +12,19 @@ export const Settings = () => {
         <Col span={24}>
           <h1>Settings</h1>
         </Col>
-        <Col span={'50%'}>
+        <Col span="50%">
           Mute alert
-          <Switch style={{ marginLeft: '2rem' }} checked={muted} onChange={setMuted} />
+          <Switch
+            style={{ marginLeft: "2rem" }}
+            checked={muted}
+            onChange={setMuted}
+          />
         </Col>
 
-        <Col span={'50%'}>
+        <Col span="50%">
           Disable preferences
-          <Switch style={{ marginLeft: '2rem' }}
+          <Switch
+            style={{ marginLeft: "2rem" }}
             checked={disablePreferences}
             onChange={setDisablePreferences}
           />

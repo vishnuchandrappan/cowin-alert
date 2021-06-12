@@ -14,28 +14,27 @@ export const SearchContainer = () => {
   const preferences = useContext(PreferencesContext);
   const settings = useContext(SettingsContext);
 
-
   const searchProps = {
-    district_id: selectedDistrict,
+    districtId: selectedDistrict,
     threshold: 1,
     audio: alert,
     ...preferences,
-    ...settings
+    ...settings,
   };
 
   if (!selectedDistrict || dates.length === 0) {
     return (
       <>
-        {!selectedDistrict && (<Alert
-          message="Select state & district first"
-          type="info"
-          showIcon
-        />)}
-        {dates.length === 0 && (<Alert
-          message="Click on dates to select one. Select as many dates as you like"
-          type="info"
-          showIcon
-        />)}
+        {!selectedDistrict && (
+          <Alert message="Select state & district first" type="info" showIcon />
+        )}
+        {dates.length === 0 && (
+          <Alert
+            message="Click on dates to select one. Select as many dates as you like"
+            type="info"
+            showIcon
+          />
+        )}
       </>
     );
   }
@@ -48,7 +47,7 @@ export const SearchContainer = () => {
       <Divider />
       <Col span={24}>
         <Collapse activeKey={dates}>
-          {dates.map(date => (
+          {dates.map((date) => (
             <Panel header={date} key={date}>
               <PerformSearch {...searchProps} date={date} />
             </Panel>
@@ -56,5 +55,5 @@ export const SearchContainer = () => {
         </Collapse>
       </Col>
     </Row>
-  )
-}
+  );
+};
