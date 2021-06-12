@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { api } from "../helpers/api";
 import { Row, Spin, Col, Divider, Alert } from "antd";
-import { SettingsContext } from "../services/SettingsService";
 
 export const PerformSearch = ({
   district_id,
@@ -12,20 +11,21 @@ export const PerformSearch = ({
   dose = 1,
   minAgeLimit = 45,
   cost = "free",
+  vaccine,
+  muted,
+  disablePreferences,
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [availableSessions, setAvailableSessions] = useState([]);
 
-  const { muted } = useContext(SettingsContext);
-
   const style = {
     background: "#adc6ff",
     textAlign: "center",
-    padding: '1rem',
-    width: '100%',
-    borderRadius: '2px'
+    padding: "1rem",
+    width: "100%",
+    borderRadius: "2px",
   };
 
   const fetchSessions = () => {
@@ -64,14 +64,23 @@ export const PerformSearch = ({
   useEffect(() => {
     setAvailableSessions(
       sessions.filter((session) => {
-        return (
-          session.fee_type === cost &&
+        return disablePreferences
+          ? session.available_capacity >= threshold
+          : session.fee_type === cost &&
           session[`available_capacity_dose${dose}`] >= threshold &&
-          session.min_age_limit === minAgeLimit
-        );
+          session.min_age_limit === minAgeLimit &&
+          session.vaccine === vaccine;
       })
     );
-  }, [sessions, threshold, cost, dose, minAgeLimit]);
+  }, [
+    sessions,
+    threshold,
+    cost,
+    dose,
+    minAgeLimit,
+    vaccine,
+    disablePreferences,
+  ]);
 
   useEffect(() => {
     if (availableSessions.length > 0 && !muted) {
@@ -81,20 +90,32 @@ export const PerformSearch = ({
 
   return (
     <Row>
-      <Col style={{ height: '1.3rem' }} span={24}>{sessions.length} centres found {loading && <Spin style={{ display: 'inline' }} size="small" />}</Col>
-      <Col span={24} style={{ overflowX: 'hidden' }}>
-
+      <Col style={{ height: "1.3rem" }} span={24}>
+        {sessions.length} centres found{" "}
+        {loading && <Spin style={{ display: "inline" }} size="small" />}
+      </Col>
+      <Col span={24} style={{ overflowX: "hidden" }}>
         {availableSessions.length > 0 ? (
           <Row gutter={[32, 32]} className="states">
             {availableSessions.map((session) => (
-              <Col style={style} key={session.center_id} md={10} lg={6} offset={1} >
+              <Col
+                style={style}
+                key={session.center_id}
+                md={10}
+                lg={6}
+                offset={1}
+              >
                 {session.name}
                 <small style={{ display: "inline-block" }}>
                   ( {session.available_capacity} )
                 </small>
+                {disablePreferences && (
+                  <small style={{ display: "inline-block" }}>
+                    ( {session.vaccine} )
+                  </small>
+                )}
               </Col>
-            )
-            )}
+            ))}
           </Row>
         ) : (
           <Alert

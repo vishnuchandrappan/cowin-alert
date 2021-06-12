@@ -24,10 +24,13 @@ export const LocationSelector = () => {
   return (
     <Fragment>
       <Row>
-        <Col md={12}>
+        <Col span={24}>
+          <h1>Select location</h1>
+        </Col>
+        <Col sm={12}>
           <SelectState handleChange={handleStateChange} />
         </Col>
-        <Col md={12}>
+        <Col sm={12}>
           {selectedState && <SelectDistrict {...selectDistrictProps} />}
         </Col>
       </Row>

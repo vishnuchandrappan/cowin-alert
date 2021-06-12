@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { api } from "../helpers/api";
-import { Select } from "antd";
+import { Alert, Col, Row, Select } from "antd";
 import { Spin } from "antd";
 
 const { Option } = Select;
@@ -8,12 +8,10 @@ const { Option } = Select;
 export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
   const [districts, setDistricts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchDistricts = () => {
     if (loading) return;
     setLoading(true);
-    setError(null);
 
     api
       .get(`/v2/admin/location/districts/${state_id}`)
@@ -23,7 +21,6 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
       })
       .catch((error) => {
         console.log("error in fetching districts");
-        setError(error.response);
       })
       .then(() => {
         setLoading(false);
@@ -40,15 +37,19 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
   };
 
   return (
-    <>
-      <h1>Select district</h1>
-      {error && <div>districts list cannot be fetched</div>}
-      {loading && <Spin />}
+    <Row style={{ width: '100%' }}>
+      <Col span={24}>
+        <h3>Select district {loading && <Spin style={{ display: 'inline' }} />}</h3>
+      </Col>
+
       {districts.length > 0 ? (
-        <div className="states">
+        <Col span={24} className="states">
           <Select
             showSearch
-            style={{ width: 200 }}
+            style={{
+              width: "100%",
+              margin: '0 0.2rem'
+            }}
             placeholder="Districts"
             optionFilterProp="children"
             onChange={handleChange}
@@ -62,10 +63,14 @@ export const SelectDistrict = ({ state_id, setSelectedDistrict }) => {
               </Option>
             ))}
           </Select>
-        </div>
+        </Col>
       ) : (
-        <div>no results found</div>
+        <Alert
+          message="no results found"
+          type="error"
+          showIcon
+        />
       )}
-    </>
+    </Row>
   );
 };

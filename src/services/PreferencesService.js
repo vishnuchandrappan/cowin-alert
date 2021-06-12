@@ -8,6 +8,7 @@ export const PreferencesService = ({ children }) => {
   const [cost, setCost] = useState(FREE);
   const [minAgeLimit, setMinAgeLimit] = useState(45);
   const [dose, setDose] = useState(1);
+  const [vaccine, setVaccine] = useState('COVISHIELD');
 
   return (
     <PreferencesContext.Provider
@@ -19,7 +20,9 @@ export const PreferencesService = ({ children }) => {
         minAgeLimit,
         setMinAgeLimit,
         dose,
-        setDose
+        setDose,
+        vaccine,
+        setVaccine
       }}
     >
       {children}

@@ -2,6 +2,7 @@ import { Row, Col, InputNumber, Tooltip, Select, Divider } from "antd";
 import { useContext } from "react";
 import { FREE, PAID } from "../helpers/constants";
 import { PreferencesContext } from "../services/PreferencesService";
+import { SettingsContext } from "../services/SettingsService";
 const { Option } = Select;
 
 export const Preferences = () => {
@@ -13,16 +14,19 @@ export const Preferences = () => {
     minAgeLimit,
     setMinAgeLimit,
     dose,
-    setDose
+    setDose,
+    vaccine,
+    setVaccine
   } = useContext(PreferencesContext);
 
+  const { disablePreferences } = useContext(SettingsContext);
+
   return (
-    <div className="preferences">
-      <h1>Select preferences</h1>
-      <Row>
+    <Row className={`preferences ${disablePreferences ? 'disabled' : null}`}>
+      <Col span={24}>Select preferences</Col>
         <Col span={8}>
           <Tooltip
-            title={`Select Dose`}
+            title={`Only dose - ${dose} results will be displayed`}
           >
             <span>Select Dose</span>
           </Tooltip>
@@ -41,8 +45,6 @@ export const Preferences = () => {
             <Option value={2}>2</Option>
           </Select>
         </Col>
-      </Row>
-      <Row>
         <Col span={8}>
           <Tooltip
             title={`Automatic refresh will be happening every ${refreshTime} sec`}
@@ -62,9 +64,6 @@ export const Preferences = () => {
             onChange={setRefreshTime}
           />
         </Col>
-      </Row>
-
-      <Row>
         <Col span={8}>
           <Tooltip title={`Change cost preference of vaccine as ${cost}`}>
             <span>Free or paid</span>
@@ -84,9 +83,6 @@ export const Preferences = () => {
             <Option value={PAID}>Paid</Option>
           </Select>
         </Col>
-      </Row>
-
-      <Row>
         <Col span={8}>
           <Tooltip
             title={`If set to 'Yes', the search results will be filtered with age limit of 45`}
@@ -109,8 +105,30 @@ export const Preferences = () => {
             <Option value={18}>18 to 39</Option>
           </Select>
         </Col>
-      </Row>
+        <Col span={8}>
+          <Tooltip
+            title={`Search results will only contain slots having ${vaccine} vaccine`}
+          >
+            <span>Vaccine</span>
+          </Tooltip>
+        </Col>
+        <Col span={16}>
+          <Select
+            style={{
+              width: "100%",
+              margin: '0 0.2rem'
+            }}
+            value={vaccine}
+            placeholder="Preferred vaccine"
+            onChange={setVaccine}
+          >
+            <Option value={'COVISHIELD'}>Covishield</Option>
+            <Option value={'COVAXIN'}>Covaxin</Option>
+            <Option value={'SPUTNIK V'}>Sputnik V</Option>
+          </Select>
+        </Col>
+      <Col/>
       <Divider />
-    </div>
+    </Row>
   );
 };

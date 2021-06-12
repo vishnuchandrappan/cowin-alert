@@ -1,4 +1,4 @@
-import { Select, Spin } from "antd";
+import { Alert, Col, Row, Select, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { api } from "../helpers/api";
 
@@ -7,12 +7,10 @@ const { Option } = Select;
 export const SelectState = ({ handleChange }) => {
   const [states, setStates] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const fetchStates = () => {
     if (loading) return;
     setLoading(true);
-    setError(null);
 
     api
       .get("/v2/admin/location/states")
@@ -22,7 +20,6 @@ export const SelectState = ({ handleChange }) => {
       })
       .catch((error) => {
         console.log("error in fetching states");
-        setError(error.response);
       })
       .then(() => {
         setLoading(false);
@@ -35,15 +32,19 @@ export const SelectState = ({ handleChange }) => {
   }, []);
 
   return (
-    <>
-      <h1>Select state</h1>
-      {error && <div>states list cannot be fetched</div>}
-      {loading && <Spin />}
+    <Row style={{ width: '100%' }}>
+      <Col span={24}>
+        <h3>Select state {loading && <Spin style={{ display: 'inline' }} />} </h3>
+      </Col>
+
       {states.length > 0 ? (
-        <div className="states">
+        <Col span={24} className="states">
           <Select
             showSearch
-            style={{ width: 200 }}
+            style={{
+              width: "100%",
+              margin: '0 0.2rem'
+            }}
             placeholder="States"
             optionFilterProp="children"
             onChange={handleChange}
@@ -57,10 +58,14 @@ export const SelectState = ({ handleChange }) => {
               </Option>
             ))}
           </Select>
-        </div>
+        </Col>
       ) : (
-        <div>no results found</div>
+        <Alert
+          message="no results found"
+          type="error"
+          showIcon
+        />
       )}
-    </>
+    </Row>
   );
 };

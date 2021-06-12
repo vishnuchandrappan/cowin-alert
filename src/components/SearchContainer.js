@@ -4,22 +4,23 @@ import { PerformSearch } from "./PerformSearch";
 import { AppContext } from "../services/AppService";
 import { DateContext } from "../services/DateService";
 import { PreferencesContext } from "../services/PreferencesService";
+import { SettingsContext } from "../services/SettingsService";
 
 const { Panel } = Collapse;
 
 export const SearchContainer = () => {
   const { selectedDistrict, alert } = useContext(AppContext);
-  const { refreshTime, cost, minAgeLimit, dose } = useContext(PreferencesContext);
   const { dates } = useContext(DateContext);
+  const preferences = useContext(PreferencesContext);
+  const settings = useContext(SettingsContext);
+
 
   const searchProps = {
     district_id: selectedDistrict,
     threshold: 1,
     audio: alert,
-    cost,
-    refreshTime,
-    minAgeLimit,
-    dose
+    ...preferences,
+    ...settings
   };
 
   if (!selectedDistrict || dates.length === 0) {
