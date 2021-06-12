@@ -1,7 +1,7 @@
 import { Row, Col, InputNumber, Tooltip, Select } from "antd";
 import { useContext } from "react";
 import { FREE, PAID } from "../helpers/constants";
-import { PreferencesContext } from "./services/PreferencesService";
+import { PreferencesContext } from "../services/PreferencesService";
 const { Option } = Select;
 
 export const Preferences = () => {
@@ -105,7 +105,7 @@ export const Preferences = () => {
           >
             <Option value={45}>Above 45</Option>
             <Option value={40}>40 - 44</Option>
-            <Option value={false}>18 to 39</Option>
+            <Option value={18}>18 to 39</Option>
           </Select>
         </Col>
       </Row>

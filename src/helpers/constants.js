@@ -1,2 +1,2 @@
-export const FREE = "free";
-export const PAID = "paid";
+export const FREE = "Free";
+export const PAID = "Paid";

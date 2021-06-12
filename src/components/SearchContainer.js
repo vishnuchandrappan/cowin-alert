@@ -1,9 +1,9 @@
 import { Col, Divider } from "antd";
 import { Fragment, useContext } from "react";
 import { PerformSearch } from "./PerformSearch";
-import { AppContext } from "./services/AppService";
-import { DateContext } from "./services/DateService";
-import { PreferencesContext } from "./services/PreferencesService";
+import { AppContext } from "../services/AppService";
+import { DateContext } from "../services/DateService";
+import { PreferencesContext } from "../services/PreferencesService";
 
 
 export const SearchContainer = () => {

@@ -1,7 +1,7 @@
 import moment from "moment";
 import { Tag } from "antd";
 import { Fragment, useContext, useState } from "react";
-import { DateContext } from "./services/DateService";
+import { DateContext } from "../services/DateService";
 
 export const DateSelector = () => {
   const { dates, toggleDates } = useContext(DateContext);

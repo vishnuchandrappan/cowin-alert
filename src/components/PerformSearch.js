@@ -33,7 +33,6 @@ export const PerformSearch = ({
         `/v2/appointment/sessions/public/findByDistrict?district_id=${district_id}&date=${date}`
       )
       .then((response) => {
-        console.log("sessions fetched", response.data);
         setSessions(response.data.sessions);
       })
       .catch((error) => {
@@ -61,9 +60,9 @@ export const PerformSearch = ({
     setAvailableSessions(
       sessions.filter((session) => {
         return (
-          session.fee_type.toLowerCase() === cost &&
-          session[`available_capacity_dose${dose}` >= threshold] &&
-          session.min_age_limit >= minAgeLimit
+          session.fee_type === cost &&
+          session[`available_capacity_dose${dose}`] >= threshold &&
+          session.min_age_limit === minAgeLimit
         );
       })
     );

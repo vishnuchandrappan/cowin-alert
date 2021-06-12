@@ -3,9 +3,9 @@ import { DateSelector } from "./DateSelector";
 import { LocationSelector } from "./LocationSelector";
 import { Preferences } from "./Preferences";
 import { SearchContainer } from "./SearchContainer";
-import { AppService } from "./services/AppService";
-import { DateService } from "./services/DateService";
-import { PreferencesService } from "./services/PreferencesService";
+import { AppService } from "../services/AppService";
+import { DateService } from "../services/DateService";
+import { PreferencesService } from "../services/PreferencesService";
 import { Col, Row } from "antd";
 
 export const Home = () => {

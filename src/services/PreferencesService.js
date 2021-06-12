@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-import { FREE } from "../../helpers/constants";
+import { FREE } from "../helpers/constants";
 
 export const PreferencesContext = createContext(null);
 
