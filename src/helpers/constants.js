@@ -17,3 +17,5 @@ export const DISABLE_PREFERENCES = "disablePreferences";
 
 export const STATES = "states";
 export const DISTRICTS = "districts";
+
+export const CENTRES = "centres";

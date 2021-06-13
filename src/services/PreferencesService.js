@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import {
+  CENTRES,
   COST,
   DOSE,
   FREE,
@@ -19,6 +20,16 @@ export const PreferencesService = ({ children }) => {
   const [minAgeLimit, setMinAgeLimit] = useState(getItem(MIN_AGE_LIMIT) || 45);
   const [dose, setDose] = useState(getItem(DOSE) || 1);
   const [vaccine, setVaccine] = useState(getItem(VACCINE) || "ANY");
+  const [centres, setCentres] = useState(getItem(CENTRES) || []);
+
+  const addToCentres = (newCentre) => {
+    // eslint-disable-next-line no-shadow
+    setCentres((centres) => [...centres, newCentre]);
+  };
+
+  const removeFromCentres = (centreToBeRemoved) => {
+    setCentres(centres.filter((centre) => centre !== centreToBeRemoved));
+  };
 
   useEffect(() => {
     setItem(REFRESH_TIME, refreshTime);
@@ -40,6 +51,10 @@ export const PreferencesService = ({ children }) => {
     setItem(VACCINE, vaccine);
   }, [vaccine, setItem]);
 
+  useEffect(() => {
+    setItem(CENTRES, centres);
+  }, [centres, setItem]);
+
   return (
     <PreferencesContext.Provider
       value={{
@@ -53,6 +68,9 @@ export const PreferencesService = ({ children }) => {
         setDose,
         vaccine,
         setVaccine,
+        centres,
+        addToCentres,
+        removeFromCentres,
       }}
     >
       {children}

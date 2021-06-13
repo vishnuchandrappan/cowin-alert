@@ -15,6 +15,7 @@ export const PerformSearch = ({
   vaccine,
   muted,
   disablePreferences,
+  centres,
 }) => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -49,19 +50,35 @@ export const PerformSearch = ({
 
   useEffect(() => {
     setAvailableSessions(
-      sessions.filter((session) =>
-        // eslint-disable-next-line no-nested-ternary
-        disablePreferences
-          ? session.available_capacity >= threshold
-          : vaccine === "ANY"
-          ? session.fee_type === cost &&
+      sessions.filter((session) => {
+        if (disablePreferences) {
+          return session.available_capacity >= threshold;
+        }
+        let stats;
+        if (vaccine === "ANY") {
+          stats =
+            session.fee_type === cost &&
             session[`available_capacity_dose${dose}`] >= threshold &&
-            session.min_age_limit === minAgeLimit
-          : session.fee_type === cost &&
+            session.min_age_limit === minAgeLimit;
+        } else {
+          stats =
+            session.fee_type === cost &&
             session[`available_capacity_dose${dose}`] >= threshold &&
             session.min_age_limit === minAgeLimit &&
-            session.vaccine === vaccine
-      )
+            session.vaccine === vaccine;
+        }
+
+        if (centres.length > 0) {
+          return (
+            stats &&
+            (centres.includes(session.name.toLowerCase()) ||
+              centres.includes(`${session.pincode}`) ||
+              centres.includes(session.block_name.toLowerCase()))
+          );
+        }
+
+        return stats;
+      })
     );
   }, [
     sessions,
@@ -71,6 +88,7 @@ export const PerformSearch = ({
     minAgeLimit,
     vaccine,
     disablePreferences,
+    centres,
   ]);
 
   useEffect(() => {

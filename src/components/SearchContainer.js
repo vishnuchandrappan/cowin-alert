@@ -22,23 +22,6 @@ export const SearchContainer = () => {
     ...settings,
   };
 
-  if (!selectedDistrict || dates.length === 0) {
-    return (
-      <>
-        {!selectedDistrict && (
-          <Alert message="Select state & district first" type="info" showIcon />
-        )}
-        {dates.length === 0 && (
-          <Alert
-            message="Click on dates to select one. Select as many dates as you like"
-            type="info"
-            showIcon
-          />
-        )}
-      </>
-    );
-  }
-
   return (
     <Row className="results" style={{ position: "relative" }}>
       <Col
@@ -53,15 +36,34 @@ export const SearchContainer = () => {
         <h1>Search Results</h1>
       </Col>
       <Divider />
-      <Col span={24}>
-        <Collapse activeKey={dates}>
-          {dates.map((date) => (
-            <Panel header={date} key={date}>
-              <PerformSearch {...searchProps} date={date} />
-            </Panel>
-          ))}
-        </Collapse>
-      </Col>
+      {!selectedDistrict || dates.length === 0 ? (
+        <>
+          {!selectedDistrict && (
+            <Alert
+              message="Select state & district first"
+              type="info"
+              showIcon
+            />
+          )}
+          {dates.length === 0 && (
+            <Alert
+              message="Click on dates to select one. Select as many dates as you like"
+              type="info"
+              showIcon
+            />
+          )}
+        </>
+      ) : (
+        <Col span={24}>
+          <Collapse activeKey={dates}>
+            {dates.map((date) => (
+              <Panel header={date} key={date}>
+                <PerformSearch {...searchProps} date={date} />
+              </Panel>
+            ))}
+          </Collapse>
+        </Col>
+      )}
     </Row>
   );
 };
