@@ -50,8 +50,13 @@ export const PerformSearch = ({
   useEffect(() => {
     setAvailableSessions(
       sessions.filter((session) =>
+        // eslint-disable-next-line no-nested-ternary
         disablePreferences
           ? session.available_capacity >= threshold
+          : vaccine === "ANY"
+          ? session.fee_type === cost &&
+            session[`available_capacity_dose${dose}`] >= threshold &&
+            session.min_age_limit === minAgeLimit
           : session.fee_type === cost &&
             session[`available_capacity_dose${dose}`] >= threshold &&
             session.min_age_limit === minAgeLimit &&

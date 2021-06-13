@@ -123,6 +123,7 @@ export const Preferences = () => {
           placeholder="Preferred vaccine"
           onChange={setVaccine}
         >
+          <Option value="ANY">Any</Option>
           <Option value="COVISHIELD">Covishield</Option>
           <Option value="COVAXIN">Covaxin</Option>
           <Option value="SPUTNIK V">Sputnik V</Option>

@@ -18,7 +18,7 @@ export const PreferencesService = ({ children }) => {
   const [cost, setCost] = useState(getItem(COST) || FREE);
   const [minAgeLimit, setMinAgeLimit] = useState(getItem(MIN_AGE_LIMIT) || 45);
   const [dose, setDose] = useState(getItem(DOSE) || 1);
-  const [vaccine, setVaccine] = useState(getItem(VACCINE) || "COVISHIELD");
+  const [vaccine, setVaccine] = useState(getItem(VACCINE) || "ANY");
 
   useEffect(() => {
     setItem(REFRESH_TIME, refreshTime);
