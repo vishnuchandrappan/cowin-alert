@@ -55,7 +55,7 @@ export const SearchContainer = () => {
         </>
       ) : (
         <Col span={24}>
-          <Collapse activeKey={dates}>
+          <Collapse defaultActiveKey={dates}>
             {dates.map((date) => (
               <Panel header={date} key={date}>
                 <PerformSearch {...searchProps} date={date} />

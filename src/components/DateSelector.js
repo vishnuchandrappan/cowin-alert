@@ -6,8 +6,19 @@ import { generateArray } from "../helpers/utils";
 
 export const DateSelector = () => {
   const { dates, toggleDates } = useContext(DateContext);
+
+  let storedDatesCount = 0;
+  if (dates.length > 0) {
+    const lastDateParts = dates[dates.length - 1].split("-");
+    const today = moment();
+    const lastDay = moment(
+      `${lastDateParts[2]}-${lastDateParts[1]}-${lastDateParts[0]}`
+    );
+    storedDatesCount = lastDay.diff(today, "day") + 1;
+  }
+
   const [numbers, setNumbers] = useState(
-    generateArray(dates.length > 0 ? dates.length : 4)
+    generateArray(storedDatesCount > 0 ? storedDatesCount : 4)
   );
 
   const addNumber = () => {
