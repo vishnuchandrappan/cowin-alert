@@ -1,5 +1,6 @@
 export const FREE = "Free";
 export const PAID = "Paid";
+export const ANY = "ANY";
 
 export const SELECTED_STATE = "selectedState";
 export const SELECTED_DISTRICT = "selectedDistrict";
@@ -19,3 +20,7 @@ export const STATES = "states";
 export const DISTRICTS = "districts";
 
 export const CENTRES = "centres";
+
+export const COVISHIELD = "COVISHIELD";
+export const COVAXIN = "COVAXIN";
+export const SPUTNIKV = "SPUTNIK V";

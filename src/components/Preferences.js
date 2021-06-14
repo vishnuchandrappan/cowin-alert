@@ -13,7 +13,14 @@ import {
   Alert,
 } from "antd";
 import { useContext, useState } from "react";
-import { FREE, PAID } from "../helpers/constants";
+import {
+  ANY,
+  COVAXIN,
+  COVISHIELD,
+  FREE,
+  PAID,
+  SPUTNIKV,
+} from "../helpers/constants";
 import { PreferencesContext } from "../services/PreferencesService";
 import { SettingsContext } from "../services/SettingsService";
 
@@ -102,6 +109,7 @@ export const Preferences = () => {
           placeholder="Cost of vaccine"
           onChange={setCost}
         >
+          <Option value={ANY}>Any</Option>
           <Option value={FREE}>Free</Option>
           <Option value={PAID}>Paid</Option>
         </Select>
@@ -123,9 +131,10 @@ export const Preferences = () => {
           placeholder="Filter search results based on minimum age"
           onChange={setMinAgeLimit}
         >
+          <Option value={ANY}>Any</Option>
           <Option value={45}>Above 45</Option>
-          <Option value={40}>40 - 44</Option>
-          <Option value={18}>18 to 39</Option>
+          <Option value={40}>40</Option>
+          <Option value={18}>18</Option>
         </Select>
       </Col>
       <Col span={8}>
@@ -145,10 +154,10 @@ export const Preferences = () => {
           placeholder="Preferred vaccine"
           onChange={setVaccine}
         >
-          <Option value="ANY">Any</Option>
-          <Option value="COVISHIELD">Covishield</Option>
-          <Option value="COVAXIN">Covaxin</Option>
-          <Option value="SPUTNIK V">Sputnik V</Option>
+          <Option value={ANY}>Any</Option>
+          <Option value={COVISHIELD}>Covishield</Option>
+          <Option value={COVAXIN}>Covaxin</Option>
+          <Option value={SPUTNIKV}>Sputnik V</Option>
         </Select>
       </Col>
       <Divider />

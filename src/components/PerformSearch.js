@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Row, Spin, Col, Divider, Alert } from "antd";
+import { Row, Spin, Col, Alert } from "antd";
 import { searchRequest } from "../helpers/requests";
 import { SessionCard } from "./SessionCard";
+import { ANY } from "../helpers/constants";
 
 export const PerformSearch = ({
   districtId,
@@ -54,18 +55,18 @@ export const PerformSearch = ({
         if (disablePreferences) {
           return session.available_capacity >= threshold;
         }
-        let stats;
-        if (vaccine === "ANY") {
-          stats =
-            session.fee_type === cost &&
-            session[`available_capacity_dose${dose}`] >= threshold &&
-            session.min_age_limit === minAgeLimit;
-        } else {
-          stats =
-            session.fee_type === cost &&
-            session[`available_capacity_dose${dose}`] >= threshold &&
-            session.min_age_limit === minAgeLimit &&
-            session.vaccine === vaccine;
+        let stats = session[`available_capacity_dose${dose}`] >= threshold;
+
+        if (vaccine !== ANY) {
+          stats = stats && session.vaccine === vaccine;
+        }
+
+        if (cost !== ANY) {
+          stats = stats && session.fee_type === cost;
+        }
+
+        if (minAgeLimit !== ANY) {
+          stats = session.min_age_limit === minAgeLimit && stats;
         }
 
         if (centres.length > 0) {
@@ -124,8 +125,6 @@ export const PerformSearch = ({
       </Col>
 
       {error && <small style={{ color: "crimson" }}>{error}</small>}
-
-      <Divider />
     </Row>
   );
 };
